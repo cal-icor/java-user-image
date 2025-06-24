@@ -52,3 +52,7 @@ libgbm1
 libasound2
 
 net-tools
+
+# for java
+openjdk-21-jre
+openjdk-21-jdk
