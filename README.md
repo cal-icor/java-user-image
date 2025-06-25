@@ -9,7 +9,7 @@ for instructions.
 This image has Java installed via the 
 [Jupyter Java project](https://github.com/jupyter-java) project. The Java 17
 kernel is provided by [JJava](https://dflib.org/jjava/docs/1.x/) and the
-runtime is [OpenJDK JRE 11.0.27](https://packages.ubuntu.com/jammy/openjdk-21-jre)
+runtime is [OpenJDK JRE 21.0.7](https://packages.ubuntu.com/jammy/openjdk-21-jre)
 and [OpenJDK](https://packages.ubuntu.com/jammy/openjdk-21-jdk).
 
 ```
