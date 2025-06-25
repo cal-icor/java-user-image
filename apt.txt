@@ -9,9 +9,8 @@ curl
 wget
 vim
 
-# for easily managing multiple repositories with one command (perl-doc
-# is needed for its help pages to work)
-mr
+# other important things
+htop
 perl-doc
 
 # Regular build tools for compiling common stuff
