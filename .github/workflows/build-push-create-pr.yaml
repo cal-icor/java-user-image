@@ -104,36 +104,33 @@ jobs:
         run: echo "CHANGED_FILES=$(git status --porcelain -uno | awk '{print $2}')" >> $GITHUB_ENV
 
       - name: Create feature branch, add, commit, push changes and open a pull request
-        if: ${{ env.IMAGE_TAG }}
+        if: ${{ env.CHANGED_FILES }}
         env:
           GH_TOKEN: ${{ secrets.IMAGE_BUILDER_CREATE_PR }}
         run: |
-          if [[ -n "${{ env.CHANGED_FILES }}" ]]; then
-            echo "Files changed: ${{ env.CHANGED_FILES }}"
-            git diff
-            git checkout -b update-${HUB}-image-tag-${IMAGE_TAG}
-            # to be safe, only add files that have changed
-            for file in $(echo -e ${{ env.CHANGED_FILES }}); do
-              git add ${file}
-            done
+          echo "Files changed: ${{ env.CHANGED_FILES }}"
+          git diff
+          git checkout -b update-${HUB}-image-tag-${IMAGE_TAG}
+          # to be safe, only add files that have changed
+          for file in $(echo -e ${{ env.CHANGED_FILES }}); do
+            git add ${file}
+          done
 
-            BRANCH="update-${HUB}-image-tag-${IMAGE_TAG}"
-            MESSAGE="update ${HUB} image tag to ${IMAGE_TAG}"
-            git commit -m "${MESSAGE}"
-            git push origin ${BRANCH}
-            #
-            # now create a PR!
-            #
-            cat << EOF > ${HOME}/pr-body.txt
-            ${MESSAGE}
+          BRANCH="update-${HUB}-image-tag-${IMAGE_TAG}"
+          MESSAGE="update ${HUB} image tag to ${IMAGE_TAG}"
+          git commit -m "${MESSAGE}"
+          git push origin ${BRANCH}
+          #
+          # now create a PR!
+          #
+          cat << EOF > ${HOME}/pr-body.txt
+          ${MESSAGE}
 
-            ${{ env.CHANGED_FILES }}
-            EOF
-            BODY=$(cat ${HOME}/pr-body.txt)
-            gh pr new -t "${MESSAGE}" -b "${BODY}" -H${BRANCH} -Bstaging
-          else
-            echo "No files changed, no PR created."
-          fi
+          ${{ env.CHANGED_FILES }}
+          EOF
+          BODY=$(cat ${HOME}/pr-body.txt)
+          gh pr new -t "${MESSAGE}" -b "${BODY}" -H${BRANCH} -Bstaging
+
       - name: Print out a message if no PR is created
         if: ${{ ! env.IMAGE_TAG }}
         run: |
