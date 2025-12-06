@@ -41,7 +41,8 @@ dependencies:
   # pip installed packages, conda is preferred
   - pip:
     # https://github.com/jupyter-java
-    - jbang==0.7.0
+    # - jbang==0.7.0
+    - jupyter-remote-desktop-proxy==3.0.1
     # r2d installs jupyter-shiny-proxy, but in the base python env, not in the updated one
     - jupysql==0.10.15
     - nbconvert[webpdf]==7.16.4

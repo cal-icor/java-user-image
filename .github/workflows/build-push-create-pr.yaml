@@ -12,6 +12,10 @@ on:
       - '.github/**'
       - 'images/**'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -45,7 +49,7 @@ jobs:
         id: build-and-push
         uses: jupyterhub/repo2docker-action@master
         with:
-          FORCE_REPO2DOCKER_VERSION: git+https://github.com/jupyterhub/repo2docker.git@e795060 # jupyter-repo2docker==2024.07.0
+          FORCE_REPO2DOCKER_VERSION: jupyter-repo2docker==2025.08.0
           DOCKER_REGISTRY: ${{ env.GOOGLE_ARTIFACT_REGISTRY }}
           IMAGE_NAME: ${{ env.IMAGE }}
           # Disable pushing a 'latest' tag, as this often just causes confusion
@@ -71,10 +75,12 @@ jobs:
       HUB: ${{ vars.HUB }}
       IMAGE: ${{ vars.IMAGE }}
       IMAGE_TAG: ${{ needs.build-and-push.outputs.image-tag }}
+    # only run this job if the image was built and pushed successfully.
+    # repo2docker-action emits the image-tag as an output
+    if: ${{ needs.build-and-push.outputs.image-tag }}
 
     steps:
       - name: Checkout the jupyterhub repo
-        if: ${{ env.IMAGE_TAG }}
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.IMAGE_BUILDER_CREATE_PR }}
@@ -84,23 +90,20 @@ jobs:
             deployments/
   
       - name: Set git identity
-        if: ${{ env.IMAGE_TAG }}
         run: |
           git config --global user.email "${{ vars.IMAGE_BUILDER_BOT_EMAIL }}"
           git config --global user.name "${{ vars.IMAGE_BUILDER_BOT_NAME }}"
 
       - name: Update the tag for any deployments that use this image
-        if: ${{ env.IMAGE_TAG }}
         run: |
-          for deployment in $(grep -lr ${IMAGE} deployments/); do
-            old_hash=$(grep ${IMAGE} ${deployment} | awk -F":" '{print $3}')
+          for deployment in $(find deployments -type f -name common.yaml -exec grep -lr "${IMAGE}" {} +); do
+            old_hash=$(grep -hA1 ${IMAGE} ${deployment} | grep tag: | awk '{print$2}')
             new_hash=${IMAGE_TAG}
-            sed -i -e "s,${IMAGE}:${old_hash},${IMAGE}:${new_hash},g" ${deployment}
+            sed -i -e "s,${old_hash},${new_hash},g" ${deployment}
             echo "Updated ${deployment} with new image tag ${new_hash}"
           done
 
       - name: Check if any files were changed, create feature branch, add, commit, push changes and open a pull request
-        if: ${{ env.IMAGE_TAG }}
         env:
           GH_TOKEN: ${{ secrets.IMAGE_BUILDER_CREATE_PR }}
         run: |

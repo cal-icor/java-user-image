@@ -55,3 +55,14 @@ net-tools
 # for java
 openjdk-21-jre
 openjdk-21-jdk
+default-jdk
+
+# for remote desktop
+dbus-x11
+xfce4
+xfce4-panel
+xfce4-session
+xfce4-settings
+xorg
+xubuntu-icon-theme
+tigervnc-standalone-server
