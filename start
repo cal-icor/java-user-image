@@ -2,4 +2,10 @@
 
 # See https://jira-secure.berkeley.edu/browse/DH-305
 export PLAYWRIGHT_BROWSERS_PATH=${CONDA_DIR}
+
+export CODE_WORKINGDIR: /home/jovyan
+# Tell code where to display GUIs
+# The VNC /desktop link must be opened already for this to work
+export DISPLAY: ":1.0"
+
 exec "$@"
