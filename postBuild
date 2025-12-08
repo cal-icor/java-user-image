@@ -22,9 +22,7 @@ for x in \
   vscjava.vscode-java-pack \
   ms-toolsai.jupyter \
   ms-python.python \
-  quarto.quarto \
   ms-vscode.live-server \
-  posit.shiny \
   ; do
     code-server --extensions-dir ${VSCODE_EXTENSIONS} --install-extension $x
 done
