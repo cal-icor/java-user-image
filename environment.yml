@@ -26,6 +26,8 @@ dependencies:
   - code-server==4.106.2
   - jupyter-vscode-proxy==0.7
   - jupyter-server-proxy==4.4.0
+  - websockify==0.13.0
+  - appmode==1.0.0
 
   # data science
   - datascience==0.18.1
@@ -45,6 +47,7 @@ dependencies:
   - pip:
     - jupyterlab-a11y-checker==0.2.5
     - jupyter-remote-desktop-proxy==3.0.1
+
     # useful for debugging python package issues
     - pip-tree==4.0.0
     - pipdeptree==2.28.0
