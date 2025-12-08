@@ -7,7 +7,6 @@ less
 # Download tools
 curl
 wget
-vim
 
 # other important system tools
 htop
@@ -15,6 +14,13 @@ perl-doc
 
 # Regular build tools for compiling common stuff
 build-essential
+
+# install manpages for common tools
+man
+man-db
+manpages-posix
+manpages-dev
+manpages-posix-dev
 
 # Dependencies for nbconvert
 texlive-xetex
@@ -32,6 +38,10 @@ ruby
 
 # Other niceties for command-line work and life
 rsync
+screen
+tar
+zip
+vim
 
 # playwright deps https://jira-secure.berkeley.edu/browse/DH-325
 libnss3
@@ -57,7 +67,9 @@ openjdk-21-jre
 openjdk-21-jdk
 default-jdk
 
-# for remote desktop
+# for remote desktop + x11
+firefox
+chromium-browser
 dbus-x11
 xfce4
 xfce4-panel
