@@ -78,5 +78,8 @@ xfce4-settings
 xorg
 xubuntu-icon-theme
 tigervnc-standalone-server
+libssl3
 libssl-dev
-
+libx11-dev
+libxkbfile-dev
+libsecret-1-dev
