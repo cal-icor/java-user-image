@@ -18,8 +18,8 @@ export VSCODE_EXTENSIONS=${CONDA_DIR}/envs/notebook/share/code-server/extensions
 mkdir -p ${VSCODE_EXTENSIONS}
 
 # This is not reproducible, and it can be difficult to version these.
+# vscjava.vscode-java-pack \
 for x in \
-  vscjava.vscode-java-pack \
   ms-toolsai.jupyter \
   ms-python.python \
   ms-vscode.live-server \
