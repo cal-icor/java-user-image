@@ -7,7 +7,7 @@ channels:
 dependencies:
   # Items required for basic level functionality
   - gh-scoped-creds==4.1
-  - git==2.51.0
+  - git==2.53.0
   - ipython==9.7.0
   - jupyter-resource-usage=1.2.0
   - jupyterhub==5.4.3
@@ -25,6 +25,8 @@ dependencies:
 
   # vscode
   - code-server==4.106.3
+  - brotli-python>=1.2.1  # CVE-2026-111497
+  - nodejs>=22.23.4,<23  # CVE-2026-111497
   - jupyter-vscode-proxy==0.7
   - jupyter-server-proxy==4.4.0
 
